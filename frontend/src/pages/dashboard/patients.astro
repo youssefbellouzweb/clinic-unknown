@@ -1,0 +1,192 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Patients - ClinicHub">
+    <div class="min-h-screen flex">
+        <!-- Sidebar (Reuse from dashboard/index.astro or make a component) -->
+        <aside class="w-64 bg-gray-900 text-white flex flex-col">
+            <div class="p-6 border-b border-gray-800">
+                <h2 class="text-2xl font-bold">ClinicHub</h2>
+                <a
+                    href="/dashboard"
+                    class="text-sm text-gray-400 mt-1 hover:text-white"
+                    >Back to Dashboard</a
+                >
+            </div>
+            <nav class="flex-1 p-4">
+                <a
+                    href="/dashboard/patients"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 text-white mb-2"
+                >
+                    Patients
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 bg-gray-50 p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Patients</h1>
+                <button
+                    id="addPatientBtn"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
+                    Add Patient
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div id="patientsList" class="p-6">
+                    <p class="text-gray-500">Loading patients...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div
+        id="addPatientModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center"
+    >
+        <div class="bg-white rounded-xl p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Add New Patient</h2>
+            <form id="addPatientForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                        >Name</label
+                    >
+                    <input
+                        type="text"
+                        name="name"
+                        required
+                        class="w-full border rounded-lg px-3 py-2"
+                    />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                        >Phone</label
+                    >
+                    <input
+                        type="tel"
+                        name="phone"
+                        class="w-full border rounded-lg px-3 py-2"
+                    />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                        >Birthdate</label
+                    >
+                    <input
+                        type="date"
+                        name="birthdate"
+                        class="w-full border rounded-lg px-3 py-2"
+                    />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                        >Notes</label
+                    >
+                    <textarea
+                        name="notes"
+                        class="w-full border rounded-lg px-3 py-2"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button
+                        type="button"
+                        id="cancelBtn"
+                        class="text-gray-600 hover:text-gray-800">Cancel</button
+                    >
+                    <button
+                        type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                        >Save</button
+                    >
+                </div>
+            </form>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    import { patients } from "../../lib/services";
+
+    const patientsList = document.getElementById("patientsList");
+    const modal = document.getElementById("addPatientModal");
+    const form = document.getElementById("addPatientForm") as HTMLFormElement;
+
+    // Load patients
+    async function loadPatients() {
+        try {
+            const response = await patients.getAll();
+            const patientData = response.data;
+
+            if (patientData.length === 0) {
+                patientsList!.innerHTML =
+                    '<p class="text-gray-500">No patients found.</p>';
+                return;
+            }
+
+            patientsList!.innerHTML = `
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Birthdate</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        ${patientData
+                            .map(
+                                (p: any) => `
+                            <tr>
+                                <td class="px-6 py-4">${p.name}</td>
+                                <td class="px-6 py-4">${p.phone || "-"}</td>
+                                <td class="px-6 py-4">${p.birthdate || "-"}</td>
+                                <td class="px-6 py-4">
+                                    <button class="text-blue-600 hover:text-blue-800">View</button>
+                                </td>
+                            </tr>
+                        `,
+                            )
+                            .join("")}
+                    </tbody>
+                </table>
+            `;
+        } catch (error) {
+            console.error("Error loading patients:", error);
+            patientsList!.innerHTML =
+                '<p class="text-red-500">Failed to load patients.</p>';
+        }
+    }
+
+    // Event Listeners
+    document.getElementById("addPatientBtn")?.addEventListener("click", () => {
+        modal?.classList.remove("hidden");
+        modal?.classList.add("flex");
+    });
+
+    document.getElementById("cancelBtn")?.addEventListener("click", () => {
+        modal?.classList.add("hidden");
+        modal?.classList.remove("flex");
+    });
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        try {
+            await patients.create(data);
+            modal?.classList.add("hidden");
+            modal?.classList.remove("flex");
+            form.reset();
+            loadPatients();
+        } catch (error) {
+            alert("Failed to create patient");
+        }
+    });
+
+    loadPatients();
+</script>

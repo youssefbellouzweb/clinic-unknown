@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: Clinic Management SaaS API
+  description: Multi-tenant Clinic Management Platform API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+    description: Local Development Server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    Clinic:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        logo_url:
+          type: string
+    
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [owner, admin, doctor, nurse, reception, patient, super_admin]
+        clinic_id:
+          type: integer
+
+paths:
+  /health:
+    get:
+      summary: Server health check
+      responses:
+        '200':
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /auth/register-clinic:
+    post:
+      summary: Register a new clinic and owner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clinic:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                    address:
+                      type: string
+                owner:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    password:
+                      type: string
+      responses:
+        '201':
+          description: Clinic registered successfully
+        '400':
+          description: Validation error
+
+  /auth/login:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                      user:
+                        $ref: '#/components/schemas/User'
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token
+      responses:
+        '200':
+          description: Token refreshed
+        '401':
+          description: Invalid refresh token
+
+  /auth/logout:
+    post:
+      summary: Logout user
+      responses:
+        '200':
+          description: Logged out successfully
+
+  /visitor/clinics:
+    get:
+      summary: Search clinics
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search query (name or address)
+        - in: query
+          name: city
+          schema:
+            type: string
+        - in: query
+          name: specialty
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of clinics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Clinic'
+
+  /visitor/clinics/{slug}:
+    get:
+      summary: Get clinic public profile
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Clinic profile
+        '404':
+          description: Clinic not found
+
+  /visitor/appointment-request:
+    post:
+      summary: Request an appointment (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clinicId:
+                  type: integer
+                patientName:
+                  type: string
+                patientPhone:
+                  type: string
+                requestedDate:
+                  type: string
+                  format: date-time
+                reason:
+                  type: string
+      responses:
+        '201':
+          description: Request submitted

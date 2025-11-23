@@ -1,0 +1,158 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import { Building2, Calendar, Users, Shield, ArrowRight } from "lucide-react";
+---
+
+<Layout title="ClinicHub - Modern Clinic Management">
+	<div class="min-h-screen flex flex-col">
+		<Navbar client:load />
+
+		<main class="flex-1">
+			<!-- Hero Section -->
+			<section
+				class="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-20"
+			>
+				<div class="container-custom">
+					<div class="max-w-3xl">
+						<h1
+							class="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+						>
+							Modern Clinic Management Made Simple
+						</h1>
+						<p class="text-xl md:text-2xl mb-8 text-blue-100">
+							Streamline your healthcare practice with our
+							comprehensive SaaS platform. Manage patients,
+							appointments, and staff all in one place.
+						</p>
+						<div class="flex flex-wrap gap-4">
+							<a
+								href="/register"
+								class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+							>
+								Get Started Free
+								<ArrowRight size={20} />
+							</a>
+							<a
+								href="/clinics"
+								class="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
+							>
+								Browse Clinics
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Features Section -->
+			<section class="py-20 bg-white">
+				<div class="container-custom">
+					<div class="text-center mb-16">
+						<h2 class="text-4xl font-bold mb-4">
+							Everything You Need to Run Your Clinic
+						</h2>
+						<p class="text-xl text-gray-600 max-w-2xl mx-auto">
+							Powerful features designed for modern healthcare
+							practices
+						</p>
+					</div>
+
+					<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+						<div
+							class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl hover:shadow-lg transition-shadow"
+						>
+							<div
+								class="bg-blue-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4"
+							>
+								<Users class="text-white" size={28} />
+							</div>
+							<h3 class="text-xl font-semibold mb-3">
+								Patient Management
+							</h3>
+							<p class="text-gray-600">
+								Comprehensive patient records, medical history,
+								and easy access to all patient information.
+							</p>
+						</div>
+
+						<div
+							class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl hover:shadow-lg transition-shadow"
+						>
+							<div
+								class="bg-green-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4"
+							>
+								<Calendar class="text-white" size={28} />
+							</div>
+							<h3 class="text-xl font-semibold mb-3">
+								Appointment Scheduling
+							</h3>
+							<p class="text-gray-600">
+								Smart scheduling system with automated reminders
+								and easy rescheduling options.
+							</p>
+						</div>
+
+						<div
+							class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl hover:shadow-lg transition-shadow"
+						>
+							<div
+								class="bg-purple-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4"
+							>
+								<Shield class="text-white" size={28} />
+							</div>
+							<h3 class="text-xl font-semibold mb-3">
+								Role-Based Access
+							</h3>
+							<p class="text-gray-600">
+								Secure access control for doctors, nurses,
+								reception, and administrative staff.
+							</p>
+						</div>
+
+						<div
+							class="bg-gradient-to-br from-orange-50 to-red-50 p-8 rounded-2xl hover:shadow-lg transition-shadow"
+						>
+							<div
+								class="bg-orange-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4"
+							>
+								<Building2 class="text-white" size={28} />
+							</div>
+							<h3 class="text-xl font-semibold mb-3">
+								Multi-Clinic Support
+							</h3>
+							<p class="text-gray-600">
+								Manage multiple clinic locations from a single
+								dashboard with ease.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- CTA Section -->
+			<section
+				class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+			>
+				<div class="container-custom text-center">
+					<h2 class="text-4xl font-bold mb-6">
+						Ready to Transform Your Clinic?
+					</h2>
+					<p class="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+						Join hundreds of clinics already using ClinicHub to
+						streamline their operations.
+					</p>
+					<a
+						href="/register"
+						class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+					>
+						Start Your Free Trial
+						<ArrowRight size={20} />
+					</a>
+				</div>
+			</section>
+		</main>
+
+		<Footer client:load />
+	</div>
+</Layout>

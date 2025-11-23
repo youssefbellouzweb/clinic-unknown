@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/clinic.db:/app/clinic.db
+      - ./backend/clinic.db-shm:/app/clinic.db-shm
+      - ./backend/clinic.db-wal:/app/clinic.db-wal
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - JWT_SECRET=dev-secret-key
+      - FRONTEND_URL=http://localhost:4321
