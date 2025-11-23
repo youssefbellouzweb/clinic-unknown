@@ -1,20 +1,33 @@
 ---
 import "../styles/global.css";
+
+const { title = "ClinicHub - Modern Clinic Management" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta
+			name="description"
+			content="ClinicHub is a modern, secure, and efficient clinic management SaaS platform. Streamline your practice with patient management, appointment scheduling, and more."
+		/>
+		<title>{title}</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
-	<body>
+	<body
+		class="font-sans antialiased text-gray-900 bg-white selection:bg-blue-100 selection:text-blue-900"
+	>
 		<slot />
 	</body>
 </html>
-
-<style>
-</style>

@@ -1,0 +1,97 @@
+---
+import Layout from "../Layout.astro";
+import Sidebar from "../components/layout/Sidebar";
+import Topbar from "../components/layout/Topbar";
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+    <div class="min-h-screen bg-gray-50 flex">
+        <!-- Sidebar Container -->
+        <div id="sidebar-container">
+            <!-- React Sidebar will be mounted here -->
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0">
+            <!-- Topbar Container -->
+            <div id="topbar-container">
+                <!-- React Topbar will be mounted here -->
+            </div>
+
+            <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+                <slot />
+            </main>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+    import Sidebar from "../components/layout/Sidebar";
+    import Topbar from "../components/layout/Topbar";
+    import { auth } from "../lib/services";
+
+    // Initialize layout components
+    async function initLayout() {
+        try {
+            const userData = await auth.getCurrentUser();
+            const user = userData.data;
+            const currentPath = window.location.pathname;
+
+            // Mount Sidebar
+            const sidebarContainer =
+                document.getElementById("sidebar-container");
+            if (sidebarContainer) {
+                const root = createRoot(sidebarContainer);
+                root.render(
+                    React.createElement(Sidebar, {
+                        currentPath,
+                        userRole: user.role,
+                        clinicName: user.clinic?.name,
+                    }),
+                );
+            }
+
+            // Mount Topbar
+            const topbarContainer = document.getElementById("topbar-container");
+            if (topbarContainer) {
+                const root = createRoot(topbarContainer);
+                root.render(
+                    React.createElement(Topbar, {
+                        user,
+                        onLogout: async () => {
+                            try {
+                                await auth.logout();
+                                window.location.href = "/";
+                            } catch (error) {
+                                console.error("Logout failed:", error);
+                            }
+                        },
+                    }),
+                );
+            }
+
+            // Handle sidebar logout button (since it's outside Topbar scope)
+            document.addEventListener("click", async (e) => {
+                const target = e.target as HTMLElement;
+                if (target.closest("#logout-btn-sidebar")) {
+                    e.preventDefault();
+                    try {
+                        await auth.logout();
+                        window.location.href = "/";
+                    } catch (error) {
+                        console.error("Logout failed:", error);
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Layout init error:", error);
+            window.location.href = "/login";
+        }
+    }
+
+    initLayout();
+</script>

@@ -57,6 +57,27 @@ export const createUser = async (req, res, next) => {
     }
 };
 
+// Get user by ID
+export const getUserById = (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const clinicId = req.user.clinicId;
+
+        const user = db.prepare(
+            'SELECT id, clinic_id, name, email, role, created_at FROM users WHERE id = ? AND clinic_id = ?'
+        ).get(id, clinicId);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ success: true, data: user });
+    } catch (error) {
+        logger.error('Get user by ID error:', error);
+        next(error);
+    }
+};
+
 // Update user
 export const updateUser = async (req, res, next) => {
     try {
@@ -135,4 +156,29 @@ export const deleteUser = (req, res, next) => {
         logger.error('Delete user error:', error);
         next(error);
     }
+};
+
+export const inviteUser = async (req, res, next) => {
+    try {
+        const { email, role } = req.body;
+        // Ensure role is allowed
+        if (req.user.role !== 'owner' && req.user.role !== 'admin') {
+            return res.status(403).json({ success: false, error: 'Only owners and admins can invite users' });
+        }
+
+        const result = await userInvitationService.createInvitation(req.user.clinicId, email, role, req.user.id);
+        res.status(201).json({ success: true, data: result });
+    } catch (error) {
+        logger.error('Invite user error:', error);
+        next(error);
+    }
+};
+
+export default {
+    createUser,
+    getUsers,
+    getUserById,
+    updateUser,
+    deleteUser,
+    inviteUser
 };
