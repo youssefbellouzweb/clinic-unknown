@@ -1,0 +1,15 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import LabRequestsList from "../../components/dashboard/LabRequestsList.jsx";
+---
+
+<DashboardLayout title="Lab Management">
+    <div class="mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Lab Requests</h1>
+            <p class="text-gray-600">Manage laboratory tests and results</p>
+        </div>
+    </div>
+
+    <LabRequestsList client:load />
+</DashboardLayout>

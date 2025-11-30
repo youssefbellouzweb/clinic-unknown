@@ -4,13 +4,13 @@ import { useState } from 'react';
 export default function Input({
     label,
     type = 'text',
-    error,
-    success,
-    helperText,
-    icon: Icon,
+    error = null,
+    success = null,
+    helperText = null,
+    icon: Icon = null,
     iconPosition = 'left',
     showPasswordToggle = false,
-    maxLength,
+    maxLength = null,
     showCounter = false,
     className = '',
     ...props
@@ -32,9 +32,10 @@ export default function Input({
             {/* Floating Label */}
             {label && (
                 <label
-                    className={`absolute left-3 transition-all duration-200 pointer-events-none ${hasValue
-                            ? 'top-2 text-xs text-blue-600 font-medium'
-                            : 'top-1/2 -translate-y-1/2 text-gray-500'
+                    htmlFor={props.id}
+                    className={`absolute left-3 transition-all duration-200 pointer-events-none z-10 ${hasValue
+                        ? 'top-2 text-xs text-blue-600 font-medium'
+                        : 'top-1/2 -translate-y-1/2 text-gray-500'
                         } ${Icon && iconPosition === 'left' ? 'left-11' : ''}`}
                 >
                     {label}
@@ -52,9 +53,8 @@ export default function Input({
                 {/* Input Field */}
                 <input
                     type={inputType}
-                    className={`w-full px-4 ${label ? 'pt-6 pb-2' : 'py-3'} ${Icon && iconPosition === 'left' ? 'pl-11' : ''
-                        } ${Icon && iconPosition === 'right' ? 'pr-11' : ''
-                        } ${showPasswordToggle || error || success ? 'pr-11' : ''
+                    className={`w-full min-h-[56px] px-4 ${label ? 'pt-6 pb-2' : 'py-3'} ${Icon && iconPosition === 'left' ? 'pl-11' : ''
+                        } ${Icon && iconPosition === 'right' ? 'pr-11' : ''} ${showPasswordToggle || error || success ? 'pr-11' : ''
                         } border rounded-lg transition-all duration-200 ${error
                             ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
                             : success
@@ -136,6 +136,7 @@ export function Textarea({
         <div className={`relative ${className}`}>
             {label && (
                 <label
+                    htmlFor={props.id}
                     className={`absolute left-3 transition-all duration-200 pointer-events-none z-10 ${hasValue
                             ? 'top-2 text-xs text-blue-600 font-medium'
                             : 'top-4 text-gray-500'

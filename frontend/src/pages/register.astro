@@ -1,201 +1,263 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {
-    UserPlus,
-    Building2,
-    User,
-    Mail,
-    Lock,
-    Phone,
-    MapPin,
-    ArrowLeft,
-} from "lucide-react";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
-import Card from "../components/ui/Card";
-import Alert from "../components/ui/Alert";
+import { ArrowLeft } from "lucide-react";
 ---
 
-<Layout title="Register Clinic - ClinicHub">
+<Layout title="Register - ClinicHub">
     <div
-        class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+        class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden"
     >
-        <!-- Animated Background -->
-        <div class="absolute inset-0 z-0">
+        <!-- Background Decoration -->
+        <div
+            class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none"
+        >
             <div
-                class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"
+                class="absolute top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-green-400/20 blur-[100px] animate-pulse"
             >
             </div>
             <div
-                class="absolute top-0 right-0 w-[800px] h-[800px] bg-green-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse-slow"
-            >
-            </div>
-            <div
-                class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 animate-pulse-slow"
-                style="animation-delay: 1s;"
+                class="absolute bottom-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue-400/20 blur-[100px] animate-pulse"
+                style="animation-delay: 1.5s"
             >
             </div>
         </div>
 
-        <div class="w-full max-w-2xl relative z-10 animate-scale-in">
-            <div class="mb-8 text-center">
-                <a
-                    href="/"
-                    class="inline-flex items-center text-gray-500 hover:text-blue-600 transition-colors mb-6"
+        <div class="sm:mx-auto sm:w-full sm:max-w-2xl relative z-10">
+            <a
+                href="/"
+                class="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors mb-8 justify-center"
+            >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+            </a>
+
+            <div class="text-center mb-10">
+                <h2
+                    class="text-4xl font-extrabold text-gray-900 tracking-tight"
                 >
-                    <ArrowLeft size={16} class="mr-2" />
-                    Back to Home
-                </a>
-                <h2 class="text-3xl font-bold text-gray-900">
-                    Register Your Clinic
+                    Start your free trial
                 </h2>
-                <p class="mt-2 text-gray-600">
-                    Start your 14-day free trial today
+                <p class="mt-2 text-sm text-gray-600">
+                    No credit card required. 14-day free trial.
                 </p>
             </div>
 
-            <Card
-                variant="glass"
-                className="p-8 shadow-xl border-t-4 border-t-green-500"
+            <div
+                class="bg-white py-8 px-4 shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] sm:rounded-2xl sm:px-10 border border-gray-100"
             >
-                <div id="error-alert" class="hidden mb-6">
-                    <Alert
-                        variant="error"
-                        title="Registration Failed"
-                        dismissible
+                <form class="space-y-8" id="register-form">
+                    <!-- Error Alert -->
+                    <div
+                        id="error-alert"
+                        class="hidden rounded-lg bg-red-50 p-4 border border-red-100"
                     >
-                        <span id="error-message"></span>
-                    </Alert>
-                </div>
-
-                <form id="register-form" class="space-y-8">
-                    <!-- Clinic Information -->
-                    <div>
-                        <h3
-                            class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2"
-                        >
-                            <Building2 size={20} class="text-blue-500" />
-                            Clinic Details
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Input
-                                client:load
-                                label="Clinic Name"
-                                type="text"
-                                id="clinicName"
-                                name="clinicName"
-                                required
-                                icon={Building2}
-                                placeholder="Medical Center"
-                            />
-                            <Input
-                                client:load
-                                label="Address"
-                                type="text"
-                                id="address"
-                                name="address"
-                                required
-                                icon={MapPin}
-                                placeholder="123 Health St"
-                            />
-                            <Input
-                                client:load
-                                label="Phone Number"
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                required
-                                icon={Phone}
-                                placeholder="+1 (555) 000-0000"
-                            />
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg
+                                    class="h-5 w-5 text-red-400"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3
+                                    class="text-sm font-medium text-red-800"
+                                    id="error-message"
+                                >
+                                    Registration failed
+                                </h3>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Admin Information -->
+                    <!-- Section 1: Clinic Details -->
                     <div>
                         <h3
-                            class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2"
+                            class="text-lg leading-6 font-medium text-gray-900 mb-4 flex items-center"
                         >
-                            <User size={20} class="text-blue-500" />
+                            <span
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 text-sm font-bold mr-3"
+                                >1</span
+                            >
+                            Clinic Information
+                        </h3>
+                        <div
+                            class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
+                        >
+                            <div class="sm:col-span-6">
+                                <label
+                                    for="clinicName"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Clinic Name</label
+                                >
+                                <input
+                                    type="text"
+                                    name="clinicName"
+                                    id="clinicName"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="e.g. City Medical Center"
+                                />
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label
+                                    for="address"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Address</label
+                                >
+                                <input
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="123 Healthcare Ave"
+                                />
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label
+                                    for="phone"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Phone Number</label
+                                >
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    id="phone"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="+1 (555) 000-0000"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div
+                            class="absolute inset-0 flex items-center"
+                            aria-hidden="true"
+                        >
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Admin Account -->
+                    <div>
+                        <h3
+                            class="text-lg leading-6 font-medium text-gray-900 mb-4 flex items-center"
+                        >
+                            <span
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 text-sm font-bold mr-3"
+                                >2</span
+                            >
                             Administrator Account
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Input
-                                client:load
-                                label="Full Name"
-                                type="text"
-                                id="name"
-                                name="name"
-                                required
-                                icon={User}
-                                placeholder="Dr. John Doe"
-                            />
-                            <Input
-                                client:load
-                                label="Email Address"
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                                icon={Mail}
-                                placeholder="admin@clinic.com"
-                            />
-                            <Input
-                                client:load
-                                label="Password"
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                icon={Lock}
-                                showPasswordToggle
-                                placeholder="••••••••"
-                            />
-                            <Input
-                                client:load
-                                label="Confirm Password"
-                                type="password"
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                required
-                                icon={Lock}
-                                showPasswordToggle
-                                placeholder="••••••••"
-                            />
+                        <div
+                            class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
+                        >
+                            <div class="sm:col-span-3">
+                                <label
+                                    for="name"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Full Name</label
+                                >
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="Dr. John Doe"
+                                />
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label
+                                    for="email"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Email Address</label
+                                >
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="admin@clinic.com"
+                                />
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label
+                                    for="password"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Password</label
+                                >
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label
+                                    for="confirmPassword"
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Confirm Password</label
+                                >
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    required
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm bg-gray-50 focus:bg-white transition-colors"
+                                    placeholder="••••••••"
+                                />
+                            </div>
                         </div>
                     </div>
 
                     <div class="pt-4">
-                        <Button
-                            client:load
+                        <button
                             type="submit"
-                            variant="gradient"
-                            size="lg"
-                            className="w-full shadow-colored hover-lift"
-                            icon={UserPlus}
-                            iconPosition="left"
+                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                         >
                             Create Account
-                        </Button>
+                        </button>
                     </div>
                 </form>
 
-                <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                <div class="mt-6 text-center">
                     <p class="text-sm text-gray-600">
                         Already have an account?
                         <a
                             href="/login"
-                            class="font-medium text-blue-600 hover:text-blue-500 transition-colors ml-1"
+                            class="font-medium text-blue-600 hover:text-blue-500 transition-colors"
                         >
-                            Sign in here
+                            Sign in
                         </a>
                     </p>
                 </div>
-            </Card>
+            </div>
 
             <p class="mt-8 text-center text-xs text-gray-400">
-                By registering, you agree to our Terms of Service and Privacy
-                Policy.
+                By registering, you agree to our <a
+                    href="#"
+                    class="underline hover:text-gray-500">Terms of Service</a
+                > and <a href="#" class="underline hover:text-gray-500"
+                    >Privacy Policy</a
+                >.
             </p>
         </div>
     </div>
@@ -212,27 +274,26 @@ import Alert from "../components/ui/Alert";
         registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Reset error state
-            errorAlert.classList.add("hidden");
+            if (errorAlert) errorAlert.classList.add("hidden");
 
             const formData = new FormData(e.target as HTMLFormElement);
             const data = Object.fromEntries(formData);
 
-            // Basic validation
             if (data.password !== data.confirmPassword) {
-                errorAlert.classList.remove("hidden");
-                errorMessage.textContent = "Passwords do not match";
+                if (errorAlert) {
+                    errorAlert.classList.remove("hidden");
+                    if (errorMessage)
+                        errorMessage.textContent = "Passwords do not match";
+                }
                 return;
             }
 
-            // Show loading state
             const submitBtn = registerForm.querySelector(
                 'button[type="submit"]',
             );
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML =
-                '<span class="animate-spin mr-2">⟳</span> Creating Account...';
+            submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Creating Account...`;
 
             try {
                 // 1. Register Clinic
@@ -256,16 +317,16 @@ import Alert from "../components/ui/Alert";
                     clinicId: clinicId,
                 });
 
-                // Redirect to login on success
                 window.location.href = "/login?registered=true";
             } catch (error: any) {
-                console.error("Registration error:", error);
-                errorAlert.classList.remove("hidden");
-                errorMessage.textContent =
-                    error.response?.data?.message ||
-                    "An error occurred during registration";
-
-                // Reset button
+                if (errorAlert) {
+                    errorAlert.classList.remove("hidden");
+                    if (errorMessage) {
+                        errorMessage.textContent =
+                            error.response?.data?.message ||
+                            "An error occurred during registration";
+                    }
+                }
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }

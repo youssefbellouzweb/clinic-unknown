@@ -1,0 +1,15 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import SettingsPanel from "../../components/dashboard/SettingsPanel.jsx";
+---
+
+<DashboardLayout title="Settings">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Clinic Settings</h1>
+        <p class="text-gray-600">
+            Manage your clinic configuration and preferences
+        </p>
+    </div>
+
+    <SettingsPanel client:load />
+</DashboardLayout>

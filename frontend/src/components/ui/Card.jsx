@@ -17,7 +17,7 @@ export default function Card({
 
     return (
         <div
-            className={`rounded-xl transition-all duration-300 ${variants[variant]} ${hoverClass} ${className}`}
+            className={`rounded-xl transition-all duration-300 overflow-visible ${variants[variant]} ${hoverClass} ${className}`}
             {...props}
         >
             {children}

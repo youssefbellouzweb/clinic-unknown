@@ -6,7 +6,7 @@ export default function Alert({
     title,
     children,
     dismissible = false,
-    onDismiss,
+    onDismiss = () => { },
     className = '',
 }) {
     const [isVisible, setIsVisible] = useState(true);

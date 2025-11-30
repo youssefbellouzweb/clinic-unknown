@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .feature-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>👋 Welcome to <%= clinicName %>!</h1>
+    </div>
+    <div class="content">
+        <div class="welcome-card">
+            <h2>Hello <%= userName %>!</h2>
+            <p>We're excited to have you on board. Your account has been successfully created.</p>
+        </div>
+
+        <div class="feature-list">
+            <h3>🎯 What You Can Do:</h3>
+            <div class="feature-item">
+                <strong>📅 Manage Appointments</strong> - Schedule and track all your appointments
+            </div>
+            <div class="feature-item">
+                <strong>👥 Patient Records</strong> - Access comprehensive patient information
+            </div>
+            <div class="feature-item">
+                <strong>🔬 Lab Results</strong> - View and manage lab test results
+            </div>
+            <div class="feature-item">
+                <strong>💊 Prescriptions</strong> - Track medications and prescriptions
+            </div>
+            <div class="feature-item">
+                <strong>📊 Analytics</strong> - Monitor clinic performance and insights
+            </div>
+        </div>
+
+        <p>Get started by logging into your account:</p>
+
+        <center>
+            <a href="<%= loginUrl %>" class="button">Login Now</a>
+        </center>
+
+        <p>If you need any help, our support team is here for you at <a href="mailto:<%= supportEmail %>">
+                <%= supportEmail %>
+            </a></p>
+    </div>
+    <div class="footer">
+        <p>© 2025 <%= clinicName %>. All rights reserved.</p>
+        <p>This email was sent to you as part of your account setup.</p>
+    </div>
+</body>
+
+</html>

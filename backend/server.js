@@ -25,6 +25,13 @@ import doctorRoutes from './routes/doctor.routes.js';
 import labRoutes from './routes/lab.routes.js';
 import billingRoutes from './routes/billing.routes.js';
 import docsRoutes from './routes/docs.routes.js';
+import dashboardAnalyticsRoutes from './routes/dashboard.analytics.routes.js';
+import clinicSettingsRoutes from './routes/clinicSettings.routes.js'; // Assuming this exists or will be created
+import gdprRoutes from './routes/gdpr.routes.js';
+import searchRoutes from './routes/search.routes.js';
+import reportRoutes from './routes/report.routes.js';
+import bookingRoutes from './routes/booking.routes.js';
+
 
 
 // Load environment variables
@@ -84,6 +91,9 @@ import clinicSettingsRoutes from './routes/clinicSettings.routes.js';
 import dashboardAnalyticsRoutes from './routes/dashboardAnalytics.routes.js';
 import auditLogRoutes from './routes/auditLog.routes.js';
 import gdprRoutes from './routes/gdpr.routes.js';
+import uploadRoutes from './routes/upload.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
+import './jobs/appointmentReminder.job.js'; // Start cron job
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -96,6 +106,9 @@ app.use('/api/dashboard/analytics', dashboardAnalyticsRoutes);
 app.use('/api/dashboard/audit-logs', auditLogRoutes);
 app.use('/api/dashboard/gdpr', gdprRoutes);
 app.use('/api/dashboard/users', userRoutes); // Assuming this exists or will be createds);
+app.use('/api/gdpr', gdprRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/docs', docsRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/medical-records', medicalRecordRoutes);
@@ -106,7 +119,13 @@ app.use('/api/superadmin', superAdminRoutes);
 app.use('/api/doctor', doctorRoutes);
 app.use('/api/lab', labRoutes);
 app.use('/api/billing', billingRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/booking', bookingRoutes);
 app.use('/docs', docsRoutes);
+
+
 
 
 // 404 handler

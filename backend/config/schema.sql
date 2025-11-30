@@ -238,6 +238,19 @@ CREATE TABLE IF NOT EXISTS bills (
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+-- Invoice Items Table
+CREATE TABLE IF NOT EXISTS invoice_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    bill_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    quantity INTEGER DEFAULT 1,
+    unit_price REAL NOT NULL,
+    total_price REAL NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE CASCADE
+);
+
+
 -- Patient Portal Users Table
 CREATE TABLE IF NOT EXISTS patient_portal_users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -278,6 +291,55 @@ CREATE TABLE IF NOT EXISTS user_invitations (
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+
+-- Files Table (for file uploads)
+CREATE TABLE IF NOT EXISTS files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    clinic_id INTEGER NOT NULL,
+    entity_type TEXT NOT NULL, -- patient, lab_result, prescription, clinic, medical_record
+    entity_id INTEGER NOT NULL,
+    file_name TEXT NOT NULL,
+    file_path TEXT NOT NULL,
+    file_size INTEGER,
+    mime_type TEXT,
+    cloudinary_public_id TEXT,
+    uploaded_by INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (clinic_id) REFERENCES clinics(id),
+    FOREIGN KEY (uploaded_by) REFERENCES users(id)
+);
+
+
+-- Notifications Table
+CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    clinic_id INTEGER NOT NULL,
+    user_id INTEGER,
+    type TEXT NOT NULL, -- email, sms, in_app
+    category TEXT NOT NULL, -- appointment_reminder, password_reset, etc.
+    title TEXT NOT NULL,
+    message TEXT NOT NULL,
+    data TEXT, -- JSON
+    status TEXT DEFAULT 'pending', -- pending, sent, failed
+    read BOOLEAN DEFAULT 0,
+    sent_at DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (clinic_id) REFERENCES clinics(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Notification Preferences Table
+CREATE TABLE IF NOT EXISTS notification_preferences (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL UNIQUE,
+    email_enabled BOOLEAN DEFAULT 1,
+    sms_enabled BOOLEAN DEFAULT 1,
+    in_app_enabled BOOLEAN DEFAULT 1,
+    appointment_reminders BOOLEAN DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_clinic_id ON users(clinic_id);
@@ -295,3 +357,10 @@ CREATE INDEX IF NOT EXISTS idx_lab_results_lab_request_id ON lab_results(lab_req
 CREATE INDEX IF NOT EXISTS idx_bills_clinic_id ON bills(clinic_id);
 CREATE INDEX IF NOT EXISTS idx_patient_portal_users_email ON patient_portal_users(email);
 CREATE INDEX IF NOT EXISTS idx_patient_portal_users_patient_id ON patient_portal_users(patient_id);
+CREATE INDEX IF NOT EXISTS idx_files_clinic_id ON files(clinic_id);
+CREATE INDEX IF NOT EXISTS idx_files_entity ON files(entity_type, entity_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_status ON notifications(status);
+CREATE INDEX IF NOT EXISTS idx_notifications_created_at ON notifications(created_at);
+
+

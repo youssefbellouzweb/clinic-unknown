@@ -4,7 +4,7 @@ export default function Badge({
     size = 'md',
     dot = false,
     pulse = false,
-    icon: Icon,
+    icon: Icon = null,
     className = '',
 }) {
     const variants = {

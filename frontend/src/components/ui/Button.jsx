@@ -7,7 +7,7 @@ export default function Button({
     type = 'button',
     disabled = false,
     loading = false,
-    icon: Icon,
+    icon: Icon = null,
     iconPosition = 'left',
     className = '',
     ...props

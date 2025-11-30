@@ -1,0 +1,17 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import VisitsList from "../../components/dashboard/VisitsList.jsx";
+---
+
+<DashboardLayout title="Patient Visits">
+    <div class="mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Patient Visits</h1>
+            <p class="text-gray-600">
+                Track and manage patient visits and vitals
+            </p>
+        </div>
+    </div>
+
+    <VisitsList client:load />
+</DashboardLayout>

@@ -1,0 +1,26 @@
+import compression from 'compression';
+
+/**
+ * Compression middleware configuration
+ * Compresses all responses to reduce bandwidth
+ */
+export const compressionMiddleware = compression({
+    // Only compress responses larger than 1kb
+    threshold: 1024,
+
+    // Compression level (0-9, higher = more compression but slower)
+    level: 6,
+
+    // Filter function to decide what to compress
+    filter: (req, res) => {
+        // Don't compress if client doesn't accept encoding
+        if (req.headers['x-no-compression']) {
+            return false;
+        }
+
+        // Use compression's default filter
+        return compression.filter(req, res);
+    }
+});
+
+export default compressionMiddleware;

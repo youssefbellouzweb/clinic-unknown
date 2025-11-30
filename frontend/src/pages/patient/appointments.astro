@@ -1,0 +1,8 @@
+---
+import PatientLayout from "../../layouts/PatientLayout.astro";
+import PatientAppointments from "../../components/patient/PatientAppointments.jsx";
+---
+
+<PatientLayout title="My Appointments">
+    <PatientAppointments client:load />
+</PatientLayout>

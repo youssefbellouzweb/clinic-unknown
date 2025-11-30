@@ -7,48 +7,48 @@ const { id } = Astro.params;
 ---
 
 <Layout title="Clinic Details - ClinicHub">
-    <div class="min-h-screen flex flex-col">
-        <Navbar client:load />
+  <div class="min-h-screen flex flex-col">
+    <Navbar client:load />
 
-        <main class="flex-1 py-12">
-            <div class="container-custom">
-                <div id="clinicDetails">
-                    <div class="text-center py-12">
-                        <p class="text-gray-500">Loading clinic details...</p>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <main class="flex-1 py-12">
+      <div class="container-custom">
+        <div id="clinicDetails">
+          <div class="text-center py-12">
+            <p class="text-gray-500">Loading clinic details...</p>
+          </div>
+        </div>
+      </div>
+    </main>
 
-        <Footer client:load />
-    </div>
+    <Footer client:load />
+  </div>
 </Layout>
 
 <script define:vars={{ clinicId: id }}>
-    import axios from "axios";
+  import axios from "axios";
 
-    async function loadClinicDetails() {
-        try {
-            const response = await axios.get(
-                `http://localhost:5000/api/clinics/${clinicId}`,
-            );
-            const clinic = response.data.clinic;
-            renderClinicDetails(clinic);
-        } catch (error) {
-            console.error("Failed to load clinic:", error);
-            const container = document.getElementById("clinicDetails");
-            if (container) {
-                container.innerHTML =
-                    '<div class="text-center py-12"><p class="text-red-600">Failed to load clinic details.</p></div>';
-            }
-        }
+  async function loadClinicDetails() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/clinics/${clinicId}`,
+      );
+      const clinic = response.data.clinic;
+      renderClinicDetails(clinic);
+    } catch (error) {
+      console.error("Failed to load clinic:", error);
+      const container = document.getElementById("clinicDetails");
+      if (container) {
+        container.innerHTML =
+          '<div class="text-center py-12"><p class="text-red-600">Failed to load clinic details.</p></div>';
+      }
     }
+  }
 
-    function renderClinicDetails(clinic: any) {
-        const container = document.getElementById("clinicDetails");
-        if (!container) return;
+  function renderClinicDetails(clinic: any) {
+    const container = document.getElementById("clinicDetails");
+    if (!container) return;
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
         <div class="h-64 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
           <div class="text-white text-8xl font-bold">${clinic.name.charAt(0)}</div>
@@ -59,8 +59,8 @@ const { id } = Astro.params;
           
           <div class="grid md:grid-cols-2 gap-6 mb-8">
             ${
-                clinic.specialty
-                    ? `
+              clinic.specialty
+                ? `
               <div class="flex items-start gap-3">
                 <div class="bg-blue-100 p-3 rounded-lg">
                   <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,12 +73,12 @@ const { id } = Astro.params;
                 </div>
               </div>
             `
-                    : ""
+                : ""
             }
             
             ${
-                clinic.city
-                    ? `
+              clinic.city
+                ? `
               <div class="flex items-start gap-3">
                 <div class="bg-green-100 p-3 rounded-lg">
                   <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,12 +92,12 @@ const { id } = Astro.params;
                 </div>
               </div>
             `
-                    : ""
+                : ""
             }
             
             ${
-                clinic.phone
-                    ? `
+              clinic.phone
+                ? `
               <div class="flex items-start gap-3">
                 <div class="bg-purple-100 p-3 rounded-lg">
                   <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,12 +110,12 @@ const { id } = Astro.params;
                 </div>
               </div>
             `
-                    : ""
+                : ""
             }
             
             ${
-                clinic.email
-                    ? `
+              clinic.email
+                ? `
               <div class="flex items-start gap-3">
                 <div class="bg-orange-100 p-3 rounded-lg">
                   <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,41 +128,41 @@ const { id } = Astro.params;
                 </div>
               </div>
             `
-                    : ""
+                : ""
             }
           </div>
           
           ${
-              clinic.description
-                  ? `
+            clinic.description
+              ? `
             <div class="mb-8">
               <h2 class="text-2xl font-semibold mb-3">About</h2>
               <p class="text-gray-700 leading-relaxed">${clinic.description}</p>
             </div>
           `
-                  : ""
+              : ""
           }
           
           ${
-              clinic.services
-                  ? `
+            clinic.services
+              ? `
             <div class="mb-8">
               <h2 class="text-2xl font-semibold mb-3">Services</h2>
               <p class="text-gray-700">${clinic.services}</p>
             </div>
           `
-                  : ""
+              : ""
           }
           
           ${
-              clinic.address
-                  ? `
+            clinic.address
+              ? `
             <div class="mb-8">
               <h2 class="text-2xl font-semibold mb-3">Address</h2>
               <p class="text-gray-700">${clinic.address}</p>
             </div>
           `
-                  : ""
+              : ""
           }
           
           <div class="flex gap-4">
@@ -176,7 +176,7 @@ const { id } = Astro.params;
         </div>
       </div>
     `;
-    }
+  }
 
-    loadClinicDetails();
+  loadClinicDetails();
 </script>

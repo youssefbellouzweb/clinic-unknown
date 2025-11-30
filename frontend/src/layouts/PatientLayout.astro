@@ -1,0 +1,90 @@
+---
+import Layout from "./Layout.astro";
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+    <div class="min-h-screen bg-gray-50">
+        <!-- Patient Header -->
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">
+                            Patient Portal
+                        </h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span id="patientName" class="text-gray-700"></span>
+                        <button
+                            id="logoutBtn"
+                            class="text-sm text-red-600 hover:text-red-700"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Patient Navigation -->
+        <nav class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex space-x-8">
+                    <a
+                        href="/patient/dashboard"
+                        class="border-b-2 border-indigo-500 py-4 px-1 text-sm font-medium text-indigo-600"
+                    >
+                        Dashboard
+                    </a>
+                    <a
+                        href="/patient/appointments"
+                        class="border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    >
+                        Appointments
+                    </a>
+                    <a
+                        href="/patient/medical-records"
+                        class="border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    >
+                        Medical Records
+                    </a>
+                    <a
+                        href="/patient/lab-results"
+                        class="border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    >
+                        Lab Results
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <slot />
+        </main>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem("patientToken");
+        if (!token) {
+            window.location.href = "/patient/login";
+        }
+
+        // Display patient name
+        const user = JSON.parse(localStorage.getItem("patientUser") || "{}");
+        const nameEl = document.getElementById("patientName");
+        if (nameEl && user.name) {
+            nameEl.textContent = user.name;
+        }
+
+        // Logout handler
+        document.getElementById("logoutBtn")?.addEventListener("click", () => {
+            localStorage.removeItem("patientToken");
+            localStorage.removeItem("patientUser");
+            window.location.href = "/patient/login";
+        });
+    </script>
+</Layout>

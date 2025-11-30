@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Reminder</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+        .appointment-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #667eea; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .detail-label { font-weight: bold; color: #667eea; }
+        .button { display: inline-block; padding: 12px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 Appointment Reminder</h1>
+    </div>
+    <div class="content">
+        <p>Dear <%= patientName %>,</p>
+        <p>This is a friendly reminder about your upcoming appointment at <strong><%= clinicName %></strong>.</p>
+        
+        <div class="appointment-details">
+            <h3>Appointment Details</h3>
+            <div class="detail-row">
+                <span class="detail-label">Date & Time:</span>
+                <span><%= new Date(appointmentDate).toLocaleString() %></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Doctor:</span>
+                <span><%= doctorName %></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Location:</span>
+                <span><%= clinicAddress %></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Contact:</span>
+                <span><%= clinicPhone %></span>
+            </div>
+        </div>
+
+        <p><strong>Important:</strong> Please arrive 10 minutes early to complete any necessary paperwork.</p>
+        
+        <p>If you need to reschedule or cancel, please contact us as soon as possible.</p>
+        
+        <center>
+            <a href="<%= process.env.FRONTEND_URL %>/patient/appointments" class="button">View Appointment</a>
+        </center>
+    </div>
+    <div class="footer">
+        <p>© 2025 <%= clinicName %>. All rights reserved.</p>
+        <p>This is an automated message. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>
